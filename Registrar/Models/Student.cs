@@ -65,7 +65,7 @@ namespace Registrar.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM students;";
+            cmd.CommandText = @"DELETE FROM students; DELETE FROM enrollments";
             cmd.ExecuteNonQuery();
             conn.Close();
             if (conn != null)

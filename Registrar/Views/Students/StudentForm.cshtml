@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+
+  <div class='container'>
+    <h1>Add a New Student</h1>
+    <form action="/students/new" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" placeholder="Peter">
+        </div>
+        <button type="submit">Add Student</button>
+    </form>
+  </div>

@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h1>Student Details</h1>
+    <h2>Name: @Model.CurrentStudent.Name | Enrolled Since: @Model.CurrentStudent.Date </h2>
+    <h2>Courses:</h2>
+    <ul>
+        @foreach (var course in Model.CurrentStudent.GetCourses())
+        {
+            <li>@course.Name : @course.CourseNumber</li>
+        }
+    </ul>
+
+    <form action="/students/@Model.CurrentStudent.Id/add-course" method="post">
+        <label for="courseId">List of Available Courses:</label>
+        <select name="courseId" class="form-control">
+        @foreach (var course in Model.AllCourses)
+        {
+                if (!@Model.CurrentStudent.GetCourses().Contains(@course))
+                {
+                    <option value="@course.Id">@course.CourseNumber: @course.Name</option>
+                }
+        }
+        </select>
+        <br>
+        <button type="submit" class="btn btn-success">Add course</button>
+    </form>
+</div>

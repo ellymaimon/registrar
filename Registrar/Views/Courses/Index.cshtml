@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class='container'>
+    <h1>All Courses Offered:</h1>
+    @foreach (var courses in Model)
+    {
+        <li>@courses.CourseNumber : @courses.Name</li>
+    }
+    <form action="/courses/delete" method="post">
+        <button class="btn btn-danger" type="submit" name="delete">Delete All Courses</button>
+    </form>
+    <br>
+    <a class="btn btn-success" href="/courses/new">Add Courses</a>
+</div>

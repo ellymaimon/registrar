@@ -78,5 +78,34 @@ namespace Registrar.Tests
             List<Student> expectedList = new List<Student> () { };
             CollectionAssert.AreEqual(expectedList, actualList);
         }
+
+        [TestMethod]
+        public void AddCourse_AddsCourseToStudent_ListCourses()
+        {
+            DateTime date = new DateTime(2008, 10, 17);
+            Student newStudent = new Student("Matt", date);
+            newStudent.Save();
+            Course newCourse = new Course("Geology 101", "GEO300");
+            newCourse.Save();
+            newStudent.AddCourse(newCourse);
+            List<Course> expectedList = new List<Course> { newCourse };
+            List<Course> actualList = newStudent.GetCourses();
+            CollectionAssert.AreEqual(expectedList, actualList);
+        }
+
+        [TestMethod]
+        public void GetCourses_GetsCoursesAssociatedWithStudent_ListCourses()
+        {
+            DateTime date = new DateTime(2008, 10, 17);
+            Student newStudent = new Student("Matt", date);
+            newStudent.Save();
+            Course newCourse = new Course("Geology 101", "GEO300");
+            Course newCourse2 = new Course("Geology 101", "GEO300");
+            newCourse.Save();
+            newStudent.AddCourse(newCourse);
+            List<Course> expectedList = new List<Course> { newCourse };
+            List<Course> actualList = newStudent.GetCourses();
+            CollectionAssert.AreEqual(expectedList, actualList);
+        }
     }
 }

@@ -121,5 +121,49 @@ namespace Registrar.Models
             }
             return foundStudent;
         }
+
+        public void AddCourse(Course course)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO enrollments (student_id, course_id) VALUES (@studentId, @courseId);";
+            cmd.Parameters.AddWithValue("@studentId", this.Id);
+            cmd.Parameters.AddWithValue("@courseId", course.Id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+        public List<Course> GetCourses()
+        {
+            List<Course> courses = new List<Course> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT courses.* FROM students
+                JOIN enrollments ON (students.id = enrollments.student_id)
+                JOIN courses ON (enrollments.course_id = courses.id)
+                WHERE students.id = @studentId;";
+            cmd.Parameters.AddWithValue("@studentId", this.Id);
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int courseId = rdr.GetInt32(0);
+                string courseName = rdr.GetString(1);
+                string courseNumber = rdr.GetString(2);
+                Course course = new Course(courseName, courseNumber, courseId);
+                courses.Add(course);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return courses;
+        }
     }
 }
